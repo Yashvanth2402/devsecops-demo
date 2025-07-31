@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Yashvanth2402_devsecops_demo_1753938224238-pr-trigger-input-set
+  identifier: Build_Yashvanth2402_devsecops_demo_1753938224238prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_Yashvanth2402_devsecops_demo_1753938224238
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
