@@ -54,7 +54,7 @@ pipeline:
                   name: docker_build
                   spec:
                     caching: true
-                    connectorRef: <+input>
+                    connectorRef: docker-hub
                     repo: hello/world
                     tags:
                       - latest
