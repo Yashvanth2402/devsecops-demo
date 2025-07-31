@@ -37,6 +37,8 @@ pipeline:
                   identifier: lint
                   name: lint
                   spec:
+                    shell: Sh
+                    image: node:20
                     command: npm run lint
                   timeout: ""
                   type: Run
