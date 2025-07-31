@@ -55,7 +55,7 @@ pipeline:
                   spec:
                     caching: true
                     connectorRef: <+input>
-                    repo: hello/world
+                    repo: yashvanth2402/sample
                     tags:
                       - latest
                   timeout: ""
