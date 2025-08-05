@@ -13,6 +13,7 @@ pipeline:
     - stage:
         identifier: build1
         name: build
+        type: CI
         spec:
           caching:
             enabled: true
@@ -22,33 +23,29 @@ pipeline:
               - step:
                   identifier: installdependencies
                   name: install dependencies
+                  type: Run
                   spec:
                     command: npm install
-                  timeout: ""
-                  type: Run
               - step:
                   identifier: test
                   name: test
+                  type: Run
                   spec:
                     command: npm run test
-                  timeout: ""
-                  type: Run
               - step:
                   identifier: lint
                   name: lint
+                  type: Run
                   spec:
                     shell: Sh
                     image: node:20
                     command: npm run lint
-                  timeout: ""
-                  type: Run
               - step:
                   identifier: build
                   name: build
+                  type: Run
                   spec:
                     command: npm run build
-                  timeout: ""
-                  type: Run
               - step:
                   identifier: sonar_scan
                   name: SonarCloud Scan
@@ -67,19 +64,32 @@ pipeline:
                         -Dsonar.token=$SONAR_TOKEN
               - step:
                   identifier: dockerbuild
-                  name: docker_build
+                  name: Docker Build
+                  type: BuildAndPushDockerRegistry
                   spec:
-                    caching: true
                     connectorRef: <+input>
                     repo: yashvanth2402/sample
                     tags:
                       - latest
-                  timeout: ""
-                  type: BuildAndPushDockerRegistry
+                    caching: true
+              - step:
+                  identifier: trivy_scan
+                  name: Trivy Security Scan
+                  type: Run
+                  spec:
+                    shell: Sh
+                    image: aquasec/trivy:latest
+                    command: |
+                      trivy image --exit-code 1 --severity CRITICAL,HIGH yashvanth2402/sample:latest
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Abort
           platform:
-            arch: Amd64
             os: Linux
+            arch: Amd64
           runtime:
-            spec: {}
             type: Cloud
-        type: CI
+            spec: {}
