@@ -62,6 +62,7 @@ pipeline:
                         -Dsonar.sources=. \
                         -Dsonar.host.url=https://sonarcloud.io \
                         -Dsonar.token=$SONAR_TOKEN
+                        -Dsonar.branch.name=<+codebase.branch>
               - step:
                   identifier: dockerbuild
                   name: Docker Build
