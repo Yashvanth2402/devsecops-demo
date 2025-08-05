@@ -50,6 +50,22 @@ pipeline:
                   timeout: ""
                   type: Run
               - step:
+                  identifier: sonar_scan
+                  name: SonarCloud Scan
+                  type: Run
+                  spec:
+                    shell: Sh
+                    image: sonarsource/sonar-scanner-cli:latest
+                    envVariables:
+                      SONAR_TOKEN: <+secrets.getValue("sonar_token")>
+                    command: |
+                      sonar-scanner \
+                        -Dsonar.organization=yashvanth2402 \
+                        -Dsonar.projectKey=Yashvanth2402_microservices-demo \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.token=$SONAR_TOKEN
+              - step:
                   identifier: dockerbuild
                   name: docker_build
                   spec:
