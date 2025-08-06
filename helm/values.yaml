@@ -1,0 +1,8 @@
+image:
+  repository: yashvanth2402/sample
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
